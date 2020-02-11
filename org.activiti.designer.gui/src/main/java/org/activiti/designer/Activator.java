@@ -13,12 +13,14 @@
  */
 package org.activiti.designer;
 
+
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -109,5 +111,24 @@ public class Activator extends AbstractUIPlugin {
   public static final ImageDescriptor getImageDescriptor(final PluginImage pluginImage) {
     return ImageDescriptor.createFromImage(plugin.getImageRegistry().get(pluginImage.getImageKey()));
   }
+	public static void log(Status status)
+	{
+		if (getDefault() != null && getDefault().getLog() != null)
+			getDefault().getLog().log(status);
+	}
 
+	public static void log(int severity, String message)
+	{
+		log(new Status(severity, PLUGIN_ID, message));
+	}
+
+	public static void log(int severity, String message, Throwable t)
+	{
+		log(severity, 0, message, t);
+	}
+
+	public static void log(int severity, int code, String message, Throwable t)
+	{
+		log(new Status(severity, PLUGIN_ID, code, message, t));
+	}
 }
